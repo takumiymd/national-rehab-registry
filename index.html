@@ -1,0 +1,186 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Test</title>
+    </head>
+    <body>
+        <h2>Projection Query</h2>
+        <form action="query.php" method="post">
+            <input type="hidden" name="queryType" value="projection" />
+
+            Field Name:
+            <input type="text" name="fieldName" />
+            <br /><br />
+
+            Table Name:
+            <input type="text" name="tableName" />
+            <br /><br />
+
+            <input type="submit" value="Run" />
+        </form>
+
+        <h2>Selection Query</h2>
+        <form action="query.php" method="post">
+            <input type="hidden" name="queryType" value="selection" />
+
+            Field Name:
+            <input type="text" name="selectField" />
+            <br /><br />
+
+            Table Name:
+            <input type="text" name="selectTable" />
+            <br /><br />
+
+            Condition Field:
+            <input type="text" name="conditionField" />
+            <br /><br />
+
+            Condition Value:
+            <input type="text" name="conditionValue" />
+            <br /><br />
+
+            <input type="submit" value="Run" />
+        </form>
+
+        <h2>Join Query</h2>
+        <form action="query.php" method="post">
+            <input type="hidden" name="queryType" value="join" />
+
+            First Table:
+            <input type="text" name="table1" />
+            <br /><br />
+
+            Second Table:
+            <input type="text" name="table2" />
+            <br /><br />
+
+            Join Field from Table 1:
+            <input type="text" name="joinField1" />
+            <br /><br />
+
+            Join Field from Table 2:
+            <input type="text" name="joinField2" />
+            <br /><br />
+
+            <input type="submit" value="Run" />
+        </form>
+
+        <h2>Division Query</h2>
+        <form action="query.php" method="post">
+            <input type="hidden" name="queryType" value="division" />
+
+            Description:
+            <input type="text" name="divisionInput" />
+            <br /><br />
+
+            <input type="submit" value="Run" />
+        </form>
+
+        <h2>Aggregation Query (COUNT)</h2>
+        <form action="query.php" method="post">
+            <input type="hidden" name="queryType" value="aggregation1" />
+
+            Function:
+            <input type="text" name="aggFunction1" />
+            <br /><br />
+
+            Field:
+            <input type="text" name="aggField1" />
+            <br /><br />
+
+            Table:
+            <input type="text" name="aggTable1" />
+            <br /><br />
+
+            <input type="submit" value="Run" />
+        </form>
+
+        <h2>Aggregation Query (MAX)</h2>
+        <form action="query.php" method="post">
+            <input type="hidden" name="queryType" value="aggregation2" />
+
+            Function:
+            <input type="text" name="aggFunction2" />
+            <br /><br />
+
+            Field:
+            <input type="text" name="aggField2" />
+            <br /><br />
+
+            Table:
+            <input type="text" name="aggTable2" />
+            <br /><br />
+
+            <input type="submit" value="Run" />
+        </form>
+
+        <h2>Group By Query</h2>
+        <form action="query.php" method="post">
+            <input type="hidden" name="queryType" value="groupby" />
+
+            Aggregate Function:
+            <input type="text" name="groupFunction" />
+            <br /><br />
+
+            Aggregate Field:
+            <input type="text" name="groupAggField" />
+            <br /><br />
+
+            Table:
+            <input type="text" name="groupTable" />
+            <br /><br />
+
+            Group By Field:
+            <input type="text" name="groupField" />
+            <br /><br />
+
+            <input type="submit" value="Run" />
+        </form>
+
+        <h2>Delete Operation</h2>
+        <form action="query.php" method="post">
+            <input type="hidden" name="queryType" value="delete" />
+
+            Table Name:
+            <input type="text" name="deleteTable" />
+            <br /><br />
+
+            ID Field:
+            <input type="text" name="deleteField" />
+            <br /><br />
+
+            ID Value:
+            <input type="text" name="deleteValue" />
+            <br /><br />
+
+            <input type="submit" value="Delete" />
+        </form>
+
+        <h2>Update Operation</h2>
+        <form action="query.php" method="post">
+            <input type="hidden" name="queryType" value="update" />
+
+            Table Name:
+            <input type="text" name="updateTable" />
+            <br /><br />
+
+            ID Field:
+            <input type="text" name="updateIDField" />
+            <br /><br />
+
+            ID Value:
+            <input type="text" name="updateIDValue" />
+            <br /><br />
+
+            Update Field:
+            <input type="text" name="updateField" />
+            <br /><br />
+
+            New Value:
+            <input type="text" name="newValue" />
+            <br /><br />
+
+            <input type="submit" value="Update" />
+        </form>
+    </body>
+</html>
