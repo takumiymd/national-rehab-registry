@@ -1,11 +1,5 @@
 <?php
-include "database.php";
-
-/*
-    IMPORTANT:
-    Update these allowed tables/fields to match your final schema exactly.
-    This keeps the app safer and avoids random SQL injection chaos.
-*/
+include "php/database.php";
 
 $allowedTables = [
     "Person",
@@ -40,7 +34,7 @@ function isAllowed($value, $allowedList) {
 
 function printTable($result) {
     if (!$result || $result->num_rows === 0) {
-        echo "<p>No results found.</p>";
+        echo "<p class='result-msg error'>No results found.</p>";
         return;
     }
 
@@ -70,20 +64,14 @@ function printTable($result) {
     echo "</table>";
 }
 
-echo "<!doctype html>";
-echo "<html><head><title>Query Results</title></head><body>";
-echo "<h1>Query Result</h1>";
-echo "<p><a href='index.html'>Back to Home</a></p>";
 
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
-    echo "<p>Invalid request.</p>";
-    echo "</body></html>";
+    echo "<p class='result-msg error'>Invalid request.</p>";
     exit();
 }
 
 if (!isset($_POST["queryType"])) {
-    echo "<p>Missing query type.</p>";
-    echo "</body></html>";
+    echo "<p class='result-msg error'>Missing query type.</p>";
     exit();
 }
 
@@ -96,7 +84,7 @@ switch ($queryType) {
         $tableName = trim($_POST["tableName"] ?? "");
 
         if (!isAllowed($fieldName, $allowedFields) || !isAllowed($tableName, $allowedTables)) {
-            echo "<p>Invalid field name or table name.</p>";
+            echo "<p class='result-msg error'>Invalid field name or table name.</p>";
             break;
         }
 
@@ -116,7 +104,7 @@ switch ($queryType) {
             !isAllowed($selectTable, $allowedTables) ||
             !isAllowed($conditionField, $allowedFields)
         ) {
-            echo "<p>Invalid input for selection query.</p>";
+            echo "<p class='result-msg error'>Invalid input for selection query.</p>";
             break;
         }
 
@@ -124,7 +112,7 @@ switch ($queryType) {
         $stmt = $conn->prepare($sql);
 
         if (!$stmt) {
-            echo "<p>Failed to prepare selection query.</p>";
+            echo "<p class='result-msg error'>Failed to prepare selection query.</p>";
             break;
         }
 
@@ -147,7 +135,7 @@ switch ($queryType) {
             !isAllowed($joinField1, $allowedFields) ||
             !isAllowed($joinField2, $allowedFields)
         ) {
-            echo "<p>Invalid input for join query.</p>";
+            echo "<p class='result-msg error'>Invalid input for join query.</p>";
             break;
         }
 
@@ -160,11 +148,6 @@ switch ($queryType) {
         break;
 
     case "division":
-        /*
-            Division is usually custom to your project.
-            Example idea:
-            Find staff who are responsible for ALL treatment plans.
-        */
 
         $sql = "
             SELECT sr.SID
@@ -175,7 +158,7 @@ switch ($queryType) {
 
         $result = $conn->query($sql);
         echo "<h2>Division Query Result</h2>";
-        echo "<p>Staff responsible for all treatment plans:</p>";
+        echo "<p class='result-msg'>Staff responsible for all treatment plans:</p>";
         printTable($result);
         break;
 
@@ -189,7 +172,7 @@ switch ($queryType) {
             !isAllowed($aggField1, $allowedFields) ||
             !isAllowed($aggTable1, $allowedTables)
         ) {
-            echo "<p>Invalid input for COUNT query.</p>";
+            echo "<p class='result-msg error'>Invalid input for COUNT query.</p>";
             break;
         }
 
@@ -208,7 +191,7 @@ switch ($queryType) {
             !isAllowed($aggField2, $allowedFields) ||
             !isAllowed($aggTable2, $allowedTables)
         ) {
-            echo "<p>Invalid input for MAX query.</p>";
+            echo "<p class='result-msg error'>Invalid input for MAX query.</p>";
             break;
         }
 
@@ -231,7 +214,7 @@ switch ($queryType) {
             !isAllowed($groupTable, $allowedTables) ||
             !isAllowed($groupField, $allowedFields)
         ) {
-            echo "<p>Invalid input for GROUP BY query.</p>";
+            echo "<p class='result-msg error'>Invalid input for GROUP BY query.</p>";
             break;
         }
 
@@ -252,7 +235,7 @@ switch ($queryType) {
             !isAllowed($deleteTable, $allowedTables) ||
             !isAllowed($deleteField, $allowedFields)
         ) {
-            echo "<p>Invalid input for DELETE query.</p>";
+            echo "<p class='result-msg error'>Invalid input for DELETE query.</p>";
             break;
         }
 
@@ -260,14 +243,14 @@ switch ($queryType) {
         $stmt = $conn->prepare($sql);
 
         if (!$stmt) {
-            echo "<p>Failed to prepare delete query.</p>";
+            echo "<p class='result-msg error'>Failed to prepare delete query.</p>";
             break;
         }
 
         $stmt->bind_param("s", $deleteValue);
 
         if ($stmt->execute()) {
-            echo "<p>Record deleted successfully.</p>";
+            echo "<p class='result-msg success'>Record deleted successfully.</p>";
         } else {
             echo "<p>Delete failed: " . htmlspecialchars($stmt->error) . "</p>";
         }
@@ -287,7 +270,7 @@ switch ($queryType) {
             !isAllowed($updateIDField, $allowedFields) ||
             !isAllowed($updateField, $allowedFields)
         ) {
-            echo "<p>Invalid input for UPDATE query.</p>";
+            echo "<p class='result-msg error'>Invalid input for UPDATE query.</p>";
             break;
         }
 
@@ -295,14 +278,14 @@ switch ($queryType) {
         $stmt = $conn->prepare($sql);
 
         if (!$stmt) {
-            echo "<p>Failed to prepare update query.</p>";
+            echo "<p class='result-msg error'>Failed to prepare update query.</p>";
             break;
         }
 
         $stmt->bind_param("ss", $newValue, $updateIDValue);
 
         if ($stmt->execute()) {
-            echo "<p>Record updated successfully.</p>";
+            echo "<p class='result-msg success'>Record updated successfully.</p>";
         } else {
             echo "<p>Update failed: " . htmlspecialchars($stmt->error) . "</p>";
         }
@@ -311,11 +294,9 @@ switch ($queryType) {
         break;
 
     default:
-        echo "<p>Unknown query type.</p>";
+        echo "<p class='result-msg error'>Unknown query type.</p>";
         break;
 }
-
-echo "</body></html>";
 
 $conn->close();
 ?>
