@@ -9,8 +9,19 @@ function showQuery(id, link) {
     links[i].classList.remove("active");
   }
 
-  document.getElementById(id).classList.remove("hidden");
-  link.classList.add("active");
+  let activePanel = document.getElementById(id);
+  if (activePanel) {
+    activePanel.classList.remove("hidden");
+  }
+
+  if (link) {
+    link.classList.add("active");
+  }
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
 
   return false;
 }
@@ -22,7 +33,7 @@ function runQuery(event, resultId) {
   let resultBox = document.getElementById(resultId);
 
   resultBox.innerHTML =
-    '<p style="color: #666; font-size: 13px;">Running...</p>';
+    '<p style="color:#617284; font-size:14px; margin:0;">Running query...</p>';
 
   let data = new FormData(form);
 
@@ -47,10 +58,9 @@ function runQuery(event, resultId) {
   xhr.send(data);
 }
 
-// helper to read a field value from a form, returns '...' if empty
 function getVal(form, name) {
   let input = form.querySelector('[name="' + name + '"]');
-  if (input && input.value.trim() != "") {
+  if (input && input.value.trim() !== "") {
     return input.value.trim();
   }
   return "...";
@@ -60,6 +70,7 @@ function updateSQL1() {
   let form = document.querySelector("#q1 form");
   let field = getVal(form, "fieldName");
   let table = getVal(form, "tableName");
+
   document.getElementById("sql1").textContent =
     "SELECT " + field + "\nFROM " + table;
 }
@@ -70,16 +81,11 @@ function updateSQL2() {
   let table = getVal(form, "selectTable");
   let cField = getVal(form, "conditionField");
   let cVal = getVal(form, "conditionValue");
+
   document.getElementById("sql2").textContent =
-    "SELECT " +
-    field +
-    "\nFROM " +
-    table +
-    "\nWHERE " +
-    cField +
-    " = '" +
-    cVal +
-    "'";
+    "SELECT " + field +
+    "\nFROM " + table +
+    "\nWHERE " + cField + " = '" + cVal + "'";
 }
 
 function updateSQL3() {
@@ -88,19 +94,12 @@ function updateSQL3() {
   let t2 = getVal(form, "table2");
   let f1 = getVal(form, "joinField1");
   let f2 = getVal(form, "joinField2");
+
   document.getElementById("sql3").textContent =
-    "SELECT *\nFROM " +
-    t1 +
-    "\nJOIN " +
-    t2 +
-    "\nON " +
-    t1 +
-    "." +
-    f1 +
-    " = " +
-    t2 +
-    "." +
-    f2;
+    "SELECT *" +
+    "\nFROM " + t1 +
+    "\nJOIN " + t2 +
+    "\nON " + t1 + "." + f1 + " = " + t2 + "." + f2;
 }
 
 function updateSQL5a() {
@@ -108,8 +107,10 @@ function updateSQL5a() {
   let fn = getVal(form, "aggFunction1");
   let field = getVal(form, "aggField1");
   let table = getVal(form, "aggTable1");
+
   document.getElementById("sql5a").textContent =
-    "SELECT " + fn + "(" + field + ") AS CountResult\nFROM " + table;
+    "SELECT " + fn + "(" + field + ") AS CountResult" +
+    "\nFROM " + table;
 }
 
 function updateSQL5b() {
@@ -117,8 +118,10 @@ function updateSQL5b() {
   let fn = getVal(form, "aggFunction2");
   let field = getVal(form, "aggField2");
   let table = getVal(form, "aggTable2");
+
   document.getElementById("sql5b").textContent =
-    "SELECT " + fn + "(" + field + ") AS MaxResult\nFROM " + table;
+    "SELECT " + fn + "(" + field + ") AS MaxResult" +
+    "\nFROM " + table;
 }
 
 function updateSQL6() {
@@ -127,17 +130,11 @@ function updateSQL6() {
   let aggField = getVal(form, "groupAggField");
   let table = getVal(form, "groupTable");
   let groupField = getVal(form, "groupField");
+
   document.getElementById("sql6").textContent =
-    "SELECT " +
-    groupField +
-    ", " +
-    fn +
-    "(" +
-    aggField +
-    ") AS AggregatedValue\nFROM " +
-    table +
-    "\nGROUP BY " +
-    groupField;
+    "SELECT " + groupField + ", " + fn + "(" + aggField + ") AS AggregatedValue" +
+    "\nFROM " + table +
+    "\nGROUP BY " + groupField;
 }
 
 function updateSQL7() {
@@ -145,8 +142,10 @@ function updateSQL7() {
   let table = getVal(form, "deleteTable");
   let field = getVal(form, "deleteField");
   let val = getVal(form, "deleteValue");
+
   document.getElementById("sql7").textContent =
-    "DELETE FROM " + table + "\nWHERE " + field + " = '" + val + "'";
+    "DELETE FROM " + table +
+    "\nWHERE " + field + " = '" + val + "'";
 }
 
 function updateSQL8() {
@@ -156,16 +155,20 @@ function updateSQL8() {
   let idVal = getVal(form, "updateIDValue");
   let updateField = getVal(form, "updateField");
   let newVal = getVal(form, "newValue");
+
   document.getElementById("sql8").textContent =
-    "UPDATE " +
-    table +
-    "\nSET " +
-    updateField +
-    " = '" +
-    newVal +
-    "'\nWHERE " +
-    idField +
-    " = '" +
-    idVal +
-    "'";
+    "UPDATE " + table +
+    "\nSET " + updateField + " = '" + newVal + "'" +
+    "\nWHERE " + idField + " = '" + idVal + "'";
 }
+
+window.onload = function () {
+  updateSQL1();
+  updateSQL2();
+  updateSQL3();
+  updateSQL5a();
+  updateSQL5b();
+  updateSQL6();
+  updateSQL7();
+  updateSQL8();
+};
