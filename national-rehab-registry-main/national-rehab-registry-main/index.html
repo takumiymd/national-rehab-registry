@@ -1,0 +1,433 @@
+<!doctype html>
+<html>
+  <head>
+    <title>National Rehab Registry - Queries</title>
+    <link rel="stylesheet" href="resources/css/style.css" />
+    <script>
+      if (
+        window.location.pathname.endsWith("/national-rehab-registry/") ||
+        window.location.pathname.endsWith("/national-rehab-registry")
+      ) {
+        window.location.href = "home.html";
+      }
+    </script>
+  </head>
+  <body>
+    <div class="header">
+      <h1>National Rehab Registry</h1>
+      <p class="subtitle">Patient Recovery Database - CPSC 2221</p>
+    </div>
+
+    <div class="app-layout">
+      <div class="sidebar">
+        <p class="sidebar-heading">Queries</p>
+        <a class="nav-item active" href="#" onclick="showQuery('q1', this)">
+          <span class="nav-num">1</span> Projection
+        </a>
+        <a class="nav-item" href="#" onclick="showQuery('q2', this)">
+          <span class="nav-num">2</span> Selection
+        </a>
+        <a class="nav-item" href="#" onclick="showQuery('q3', this)">
+          <span class="nav-num">3</span> Join
+        </a>
+        <a class="nav-item" href="#" onclick="showQuery('q4', this)">
+          <span class="nav-num">4</span> Division
+        </a>
+        <a class="nav-item" href="#" onclick="showQuery('q5a', this)">
+          <span class="nav-num">5a</span> Aggregation COUNT
+        </a>
+        <a class="nav-item" href="#" onclick="showQuery('q5b', this)">
+          <span class="nav-num">5b</span> Aggregation MAX
+        </a>
+        <a class="nav-item" href="#" onclick="showQuery('q6', this)">
+          <span class="nav-num">6</span> Group By
+        </a>
+        <a class="nav-item nav-danger" href="#" onclick="showQuery('q7', this)">
+          <span class="nav-num">7</span> Delete
+        </a>
+        <a class="nav-item" href="#" onclick="showQuery('q8', this)">
+          <span class="nav-num">8</span> Update
+        </a>
+        <div class="sidebar-divider"></div>
+        <a class="nav-item nav-home" href="home.html">
+          <span class="nav-num">H</span> Home
+        </a>
+      </div>
+
+      <div class="main">
+        <div class="query-panel" id="q1">
+          <div class="card-label">Query 1</div>
+          <h2>Projection Query</h2>
+          <p class="hint">Select a specific field from any table.</p>
+          <form onsubmit="runQuery(event, 'result1')">
+            <input type="hidden" name="queryType" value="projection" />
+            <label>Field Name</label>
+            <input
+              type="text"
+              name="fieldName"
+              placeholder="e.g. Name"
+              oninput="updateSQL1()"
+            />
+            <label>Table Name</label>
+            <input
+              type="text"
+              name="tableName"
+              placeholder="e.g. Person"
+              oninput="updateSQL1()"
+            />
+            <br /><br />
+            <input type="submit" value="Run Query" />
+          </form>
+          <div class="sql-box">
+            <p class="sql-label">SQL Preview</p>
+            <code id="sql1">SELECT ... FROM ...</code>
+          </div>
+          <div class="result-area" id="result1"></div>
+        </div>
+
+        <div class="query-panel hidden" id="q2">
+          <div class="card-label">Query 2</div>
+          <h2>Selection Query</h2>
+          <p class="hint">Filter rows from a table using a condition.</p>
+          <form onsubmit="runQuery(event, 'result2')">
+            <input type="hidden" name="queryType" value="selection" />
+            <label>Field to Display</label>
+            <input
+              type="text"
+              name="selectField"
+              placeholder="e.g. Name"
+              oninput="updateSQL2()"
+            />
+            <label>Table Name</label>
+            <input
+              type="text"
+              name="selectTable"
+              placeholder="e.g. Person"
+              oninput="updateSQL2()"
+            />
+            <label>Filter Field</label>
+            <input
+              type="text"
+              name="conditionField"
+              placeholder="e.g. SSN"
+              oninput="updateSQL2()"
+            />
+            <label>Filter Value</label>
+            <input
+              type="text"
+              name="conditionValue"
+              placeholder="e.g. 1001"
+              oninput="updateSQL2()"
+            />
+            <br /><br />
+            <input type="submit" value="Run Query" />
+          </form>
+          <div class="sql-box">
+            <p class="sql-label">SQL Preview</p>
+            <code id="sql2">SELECT ... FROM ... WHERE ... = ...</code>
+          </div>
+          <div class="result-area" id="result2"></div>
+        </div>
+
+        <div class="query-panel hidden" id="q3">
+          <div class="card-label">Query 3</div>
+          <h2>Join Query</h2>
+          <p class="hint">Combine two tables using a shared field.</p>
+          <form onsubmit="runQuery(event, 'result3')">
+            <input type="hidden" name="queryType" value="join" />
+            <label>First Table</label>
+            <input
+              type="text"
+              name="table1"
+              placeholder="e.g. Person"
+              oninput="updateSQL3()"
+            />
+            <label>Second Table</label>
+            <input
+              type="text"
+              name="table2"
+              placeholder="e.g. Staff"
+              oninput="updateSQL3()"
+            />
+            <label>Join Field from Table 1</label>
+            <input
+              type="text"
+              name="joinField1"
+              placeholder="e.g. SSN"
+              oninput="updateSQL3()"
+            />
+            <label>Join Field from Table 2</label>
+            <input
+              type="text"
+              name="joinField2"
+              placeholder="e.g. SSN"
+              oninput="updateSQL3()"
+            />
+            <br /><br />
+            <input type="submit" value="Run Query" />
+          </form>
+          <div class="sql-box">
+            <p class="sql-label">SQL Preview</p>
+            <code id="sql3"
+              >SELECT * FROM ... JOIN ... ON ....field = ....field</code
+            >
+          </div>
+          <div class="result-area" id="result3"></div>
+        </div>
+
+        <div class="query-panel hidden" id="q4">
+          <div class="card-label">Query 4</div>
+          <h2>Division Query</h2>
+          <p class="hint">
+            Find staff who are responsible for all treatment plans.
+          </p>
+          <form onsubmit="runQuery(event, 'result4')">
+            <input type="hidden" name="queryType" value="division" />
+            <label>Description</label>
+            <input
+              type="text"
+              name="divisionInput"
+              placeholder="e.g. all treatment plans"
+            />
+            <br /><br />
+            <input type="submit" value="Run Query" />
+          </form>
+          <div class="sql-box">
+            <p class="sql-label">SQL Preview</p>
+            <code id="sql4"
+              >SELECT sr.SID FROM SpecialistResponsible sr GROUP BY sr.SID
+              HAVING COUNT(DISTINCT sr.TID) = (SELECT COUNT(*) FROM
+              TreatmentPlan)</code
+            >
+          </div>
+          <div class="result-area" id="result4"></div>
+        </div>
+
+        <div class="query-panel hidden" id="q5a">
+          <div class="card-label">Query 5a</div>
+          <h2>Aggregation - COUNT</h2>
+          <p class="hint">
+            Count the number of rows in a table. Type COUNT in the function
+            field.
+          </p>
+          <form onsubmit="runQuery(event, 'result5a')">
+            <input type="hidden" name="queryType" value="aggregation1" />
+            <label>Function</label>
+            <input
+              type="text"
+              name="aggFunction1"
+              placeholder="COUNT"
+              oninput="updateSQL5a()"
+            />
+            <label>Field</label>
+            <input
+              type="text"
+              name="aggField1"
+              placeholder="e.g. PID"
+              oninput="updateSQL5a()"
+            />
+            <label>Table</label>
+            <input
+              type="text"
+              name="aggTable1"
+              placeholder="e.g. PatientMonitors"
+              oninput="updateSQL5a()"
+            />
+            <br /><br />
+            <input type="submit" value="Run Query" />
+          </form>
+          <div class="sql-box">
+            <p class="sql-label">SQL Preview</p>
+            <code id="sql5a">SELECT COUNT(...) AS CountResult FROM ...</code>
+          </div>
+          <div class="result-area" id="result5a"></div>
+        </div>
+
+        <div class="query-panel hidden" id="q5b">
+          <div class="card-label">Query 5b</div>
+          <h2>Aggregation - MAX</h2>
+          <p class="hint">
+            Find the highest value in a field. Type MAX in the function field.
+          </p>
+          <form onsubmit="runQuery(event, 'result5b')">
+            <input type="hidden" name="queryType" value="aggregation2" />
+            <label>Function</label>
+            <input
+              type="text"
+              name="aggFunction2"
+              placeholder="MAX"
+              oninput="updateSQL5b()"
+            />
+            <label>Field</label>
+            <input
+              type="text"
+              name="aggField2"
+              placeholder="e.g. TID"
+              oninput="updateSQL5b()"
+            />
+            <label>Table</label>
+            <input
+              type="text"
+              name="aggTable2"
+              placeholder="e.g. TreatmentPlan"
+              oninput="updateSQL5b()"
+            />
+            <br /><br />
+            <input type="submit" value="Run Query" />
+          </form>
+          <div class="sql-box">
+            <p class="sql-label">SQL Preview</p>
+            <code id="sql5b">SELECT MAX(...) AS MaxResult FROM ...</code>
+          </div>
+          <div class="result-area" id="result5b"></div>
+        </div>
+
+        <div class="query-panel hidden" id="q6">
+          <div class="card-label">Query 6</div>
+          <h2>Nested Aggregation with GROUP BY</h2>
+          <p class="hint">Get an aggregated value for each group in a table.</p>
+          <form onsubmit="runQuery(event, 'result6')">
+            <input type="hidden" name="queryType" value="groupby" />
+            <label>Aggregate Function</label>
+            <input
+              type="text"
+              name="groupFunction"
+              placeholder="e.g. COUNT"
+              oninput="updateSQL6()"
+            />
+            <label>Aggregate Field</label>
+            <input
+              type="text"
+              name="groupAggField"
+              placeholder="e.g. PID"
+              oninput="updateSQL6()"
+            />
+            <label>Table</label>
+            <input
+              type="text"
+              name="groupTable"
+              placeholder="e.g. PatientMonitors"
+              oninput="updateSQL6()"
+            />
+            <label>Group By Field</label>
+            <input
+              type="text"
+              name="groupField"
+              placeholder="e.g. SID"
+              oninput="updateSQL6()"
+            />
+            <br /><br />
+            <input type="submit" value="Run Query" />
+          </form>
+          <div class="sql-box">
+            <p class="sql-label">SQL Preview</p>
+            <code id="sql6"
+              >SELECT ..., COUNT(...) AS AggregatedValue FROM ... GROUP BY
+              ...</code
+            >
+          </div>
+          <div class="result-area" id="result6"></div>
+        </div>
+
+        <div class="query-panel hidden" id="q7">
+          <div class="card-label danger-label">Query 7</div>
+          <h2>Delete Operation</h2>
+          <p class="hint">
+            Delete a record by ID. This will cascade and remove related records
+            too.
+          </p>
+          <form onsubmit="runQuery(event, 'result7')">
+            <input type="hidden" name="queryType" value="delete" />
+            <label>Table Name</label>
+            <input
+              type="text"
+              name="deleteTable"
+              placeholder="e.g. PatientMonitors"
+              oninput="updateSQL7()"
+            />
+            <label>ID Field</label>
+            <input
+              type="text"
+              name="deleteField"
+              placeholder="e.g. PID"
+              oninput="updateSQL7()"
+            />
+            <label>ID Value</label>
+            <input
+              type="text"
+              name="deleteValue"
+              placeholder="e.g. 8001"
+              oninput="updateSQL7()"
+            />
+            <br /><br />
+            <input type="submit" value="Delete Record" class="btn-danger" />
+          </form>
+          <div class="sql-box sql-box-danger">
+            <p class="sql-label">SQL Preview</p>
+            <code id="sql7">DELETE FROM ... WHERE ... = ...</code>
+          </div>
+          <div class="result-area" id="result7"></div>
+        </div>
+
+        <div class="query-panel hidden" id="q8">
+          <div class="card-label">Query 8</div>
+          <h2>Update Operation</h2>
+          <p class="hint">
+            Change a field value for a specific record in the database.
+          </p>
+          <form onsubmit="runQuery(event, 'result8')">
+            <input type="hidden" name="queryType" value="update" />
+            <label>Table Name</label>
+            <input
+              type="text"
+              name="updateTable"
+              placeholder="e.g. Person"
+              oninput="updateSQL8()"
+            />
+            <label>ID Field</label>
+            <input
+              type="text"
+              name="updateIDField"
+              placeholder="e.g. SSN"
+              oninput="updateSQL8()"
+            />
+            <label>ID Value</label>
+            <input
+              type="text"
+              name="updateIDValue"
+              placeholder="e.g. 1001"
+              oninput="updateSQL8()"
+            />
+            <label>Field to Update</label>
+            <input
+              type="text"
+              name="updateField"
+              placeholder="e.g. Address"
+              oninput="updateSQL8()"
+            />
+            <label>New Value</label>
+            <input
+              type="text"
+              name="newValue"
+              placeholder="e.g. 999 New Ave"
+              oninput="updateSQL8()"
+            />
+            <br /><br />
+            <input type="submit" value="Update Record" />
+          </form>
+          <div class="sql-box">
+            <p class="sql-label">SQL Preview</p>
+            <code id="sql8">UPDATE ... SET ... = '...' WHERE ... = '...'</code>
+          </div>
+          <div class="result-area" id="result8"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>CPSC 2221 - Database Systems | Quang | Takumi | Kunal | Armaan</p>
+    </div>
+
+    <script src="resources/js/script.js"></script>
+  </body>
+</html>
