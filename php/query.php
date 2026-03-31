@@ -1,5 +1,5 @@
 <?php
-include "php/database.php";
+require_once __DIR__ . "/database.php";
 
 $allowedTables = [
     "Person",
@@ -25,7 +25,9 @@ $allowedFields = [
     "Progress_of_Recovery",
     "DurationTreatment",
     "TreatmentName",
-    "Description"
+    "Description",
+    "Dosage_level"
+
 ];
 
 function isAllowed($value, $allowedList) {
