@@ -1,6 +1,7 @@
 # National Rehab Registry
 
 ## Group Members
+
 Quang, Takumi, Kunal, Armaan
 
 ---
@@ -15,33 +16,32 @@ The system focuses on monitoring patient progress and supporting data-driven dec
 
 ## Objectives
 
-This system is designed to support several key applications:
-
-### Patient Management
-- Track individual patient recovery progress  
-- Monitor addiction type and treatment status  
-- Manage medication dosage and treatment plans  
+- Track patient recovery progress
+- Monitor addiction type and treatment status
+- Manage treatment plans and dosage
 
 ### Research and Analysis
-- Provide structured data for:
-  - Health professionals  
-  - Researchers  
-  - Psychologists  
-  - Academics  
+
+This database is for the following:
+- Health professionals
+- Researchers
+- Psychologists
+- Academics
 
 This database helps identify:
-- effective treatment strategies  
-- environmental factors influencing recovery  
-- patterns in successful rehabilitation outcomes  
+
+- effective treatment strategies
+- environmental factors influencing recovery
+- patterns in successful rehabilitation outcomes
 
 ---
 
 ## Tech Stack
 
-- Frontend: HTML, CSS, JavaScript  
-- Backend: PHP  
-- Database: MySQL (via XAMPP)  
-- Query Language: SQL  
+- Frontend: HTML, CSS, JavaScript, Bootstrap
+- Backend: PHP
+- Database: MySQL (XAMPP)
+- Query Language: SQL
 
 ---
 
@@ -53,40 +53,46 @@ The database is designed to be private and secure, accessible only to authorized
 
 ## Key Features
 
-- Projection, Selection, Join, Division queries  
-- Aggregation (COUNT, MAX)  
-- Group By operations  
-- Update and Delete functionality with validation  
-- Input validation to prevent invalid queries  
+- Projection, Selection, Join, Division queries
+- Aggregation (COUNT, MAX)
+- Group By operations
+- Update and Delete functionality with validation
+- Input validation to prevent invalid queries
 
 ---
 
 ## Testing
 
-This was tested on phpmyadmin
+Tested using phpmyadmin
 
-- All tests passed successfully  
-
-The test verifies:
-- query correctness  
-- database interaction  
-- error handling  
+The test was checked for:
+- Query correctness
+- Error handling
 
 ---
 
 ## Notes
 
-- Division queries are implemented using GROUP BY and HAVING  
-- Some UI inputs (e.g., description fields) are informational only  
-- Input validation ensures system stability and prevents invalid SQL execution  
+- Division queries are implemented using GROUP BY and HAVING
+- Some UI inputs (e.g., description fields) are informational only
+- Input validation ensures system stability and prevents invalid SQL execution
+- Database name must be "national_rehab_registry"
+- Folder name must be "national_rehab_registry"
 
 ---
 
 ## How to Run
 
-1. Start XAMPP (Apache and MySQL)
-2. type http://localhost/phpmyadmin
-3. create a new database called "national_rehab_registry
-4. import tables in createTables.sql to sql and press GO
-5. import tables in insertData.sql to sql and press GO
-6. type http://localhost/national-rehab-registry/home.html
+1. Unzip project folder and move it to C:\xampp\htdocs
+2. Open XAMPP and start Apache and MySQL
+3. Go to http://localhost/phpmyadmin
+4. Create a database called "national_rehab_registry"
+5. Import these files in order:
+- sql/createTables
+- sql/insertData.sql
+
+6. type this into your browser
+- http://localhost/national-rehab-registry/home.html
+
+## SAMPLE INPUTS
+- Listed in the field hints
